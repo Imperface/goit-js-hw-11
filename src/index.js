@@ -2,7 +2,7 @@ import { getRefs } from './js/refs';
 import { fetchPixabayApi } from './js/fetch-pixabay-api';
 import { renderGalleryCards } from './js/render-gallery-cards';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-refs = getRefs();
+const refs = getRefs();
 const onSearchBtnClick = e => {
   e.preventDefault();
   const searchQuery = refs.searchInput.value;
