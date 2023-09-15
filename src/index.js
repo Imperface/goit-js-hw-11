@@ -1,7 +1,6 @@
 import { getRefs } from './js/refs';
 import { fetchPixabayApi } from './js/fetch-pixabay-api';
 import { renderGalleryCards } from './js/render-gallery-cards';
-import { getRefs } from './js/refs';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 refs = getRefs();
 const onSearchBtnClick = e => {
