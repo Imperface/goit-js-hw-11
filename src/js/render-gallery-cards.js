@@ -1,18 +1,11 @@
 import { clearContainer } from './clear-container';
 import { getRefs } from './refs';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import { showLoadMoreBtn } from './btn-load-more-states';
 export const renderGalleryCards = data => {
   const refs = getRefs();
   if (!data.length) {
-    Notify.failure(
-      'Sorry, there are no images matching your search query. Please try again.'
-    );
     refs.searchForm.reset();
-
     clearContainer(refs.gallery);
-
-    return;
+    throw new Error();
   }
 
   const markup = data

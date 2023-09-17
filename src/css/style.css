@@ -1,16 +1,28 @@
-.load-more-hidden {
+.load-more-container {
+  display: flex;
+  justify-content: center;
+  background-color: rgb(93, 25, 177);
+  padding: 20px 0;
+}
+.load-more-container.hidden {
   display: none;
 }
-.load-more {
-  display: block;
+.load-more-btn {
+  padding: 10px;
+  min-width: 250px;
+  border-radius: 20px;
 }
-.hidden {
+.load-more-btn.hidden {
+  display: none;
+}
+.load-more-span {
+  font-size: 30px;
+  color: rgb(244, 53, 53);
+}
+.load-more-span.hidden {
   display: none;
 }
 
-.load-more.load-more-hidden {
-  display: none;
-}
 * {
   box-sizing: border-box;
 }
@@ -61,27 +73,7 @@ p {
   min-width: 150px;
   border-radius: 20px;
 }
-.btn-container {
-  display: flex;
-  justify-content: center;
-  background-color: rgb(93, 25, 177);
-  padding: 20px 0;
-}
-.btn-container.hidden {
-  display: none;
-}
-#load-more {
-  padding: 10px;
-  min-width: 250px;
-  border-radius: 20px;
-}
-.result-end {
-  font-size: 30px;
-  color: rgb(244, 53, 53);
-}
-.result-end.show {
-  display: block;
-}
+
 /*? ============ Gallery styles ============ */
 :root {
   --timing-function: cubic-bezier(0.4, 0, 0.2, 1);

@@ -9,7 +9,7 @@ export default class PixabayApiService {
     this.totalHits = 0;
     this.currentHits = 0;
   }
-  fetchPhotos() {
+  async fetchPhotos() {
     const params = new URLSearchParams({
       key: API_KEY,
       q: this.searchQuery,
@@ -21,20 +21,16 @@ export default class PixabayApiService {
     });
 
     const endpoint = BASE_URL + params.toString();
-    return axios
-      .get(endpoint)
-      .then(r => {
-        this.currentHits += r.data.hits.length;
-        this.totalHits = r.data.totalHits;
-        console.log(
-          'current hits = ' +
-            this.currentHits +
-            ' total hits = ' +
-            this.totalHits
-        );
-        return r.data.hits;
-      })
-      .catch(error => console.log(error.message));
+    try {
+      const axiosQuery = await axios.get(endpoint);
+
+      this.currentHits += axiosQuery.data.hits.length;
+      this.totalHits = axiosQuery.data.totalHits;
+
+      return axiosQuery.data.hits;
+    } catch {
+      console.log('Fetch error');
+    }
   }
   incrementPage() {
     this.page += 1;
@@ -43,6 +39,8 @@ export default class PixabayApiService {
     this.page = 1;
   }
   checkHits() {
+    console.log(this.currentHits);
+    console.log(this.totalHits);
     if (this.currentHits >= this.totalHits) {
       return true;
     }

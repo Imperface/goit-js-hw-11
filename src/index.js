@@ -2,23 +2,22 @@ import { getRefs } from './js/refs';
 import { renderGalleryCards } from './js/render-gallery-cards';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { clearContainer } from './js/clear-container';
+import { createLightboxGallery } from './js/create-lightbox-gallery';
+import {
+  loadMoreContainerHideAll,
+  loadMoreContainerHideBtn,
+  loadMoreContainerHideSpan,
+} from './js/load-more-container-states';
 import PixabayApiService from './js/pixabay-api-service';
-import { hideElement, showElement } from './js/hide-show-element';
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
-// import { createGallery } from './js/gallery-create';
+
 const refs = getRefs();
-hideElement(refs.loadMoreBtn);
-hideElement(refs.spanResultEnd);
-hideElement(refs.btnContainer);
+loadMoreContainerHideAll();
 const pixabayApiService = new PixabayApiService();
 
-const onSearchForm = e => {
+const onSearchForm = async e => {
   e.preventDefault();
   clearContainer(refs.gallery);
-  hideElement(refs.loadMoreBtn);
-  hideElement(refs.spanResultEnd);
-  hideElement(refs.btnContainer);
+  loadMoreContainerHideAll();
   const searchQuery = refs.searchInput.value;
 
   if (!searchQuery) {
@@ -28,64 +27,48 @@ const onSearchForm = e => {
 
   pixabayApiService.resetPage();
   pixabayApiService.resetHits();
+
   pixabayApiService.query = searchQuery;
+  try {
+    const fetchedData = await pixabayApiService.fetchPhotos();
 
-  pixabayApiService
-    .fetchPhotos()
-    .then(renderGalleryCards)
-    .then(r => {
-      let gallery = new SimpleLightbox('.gallery a', {
-        sourceAttr: 'href',
-        scrollZoom: false,
-        captions: true,
-        captionDelay: 250,
-        captionSelector: 'img',
-        captionType: 'attr',
-        captionsData: 'alt',
-        captionPosition: 'bottom',
-      });
+    Notify.success(`"Hooray! We found ${pixabayApiService.totalHits} images."`);
 
-      showElement(refs.btnContainer);
+    renderGalleryCards(fetchedData);
 
-      if (pixabayApiService.checkHits()) {
-        showElement(refs.spanResultEnd);
-        hideElement(refs.loadMoreBtn);
-        return;
-      }
-      hideElement(refs.spanResultEnd);
-      showElement(refs.loadMoreBtn);
-    });
+    createLightboxGallery();
+
+    if (pixabayApiService.checkHits()) {
+      loadMoreContainerHideBtn();
+      return;
+    }
+
+    loadMoreContainerHideSpan();
+  } catch (error) {
+    Notify.failure(
+      'Sorry, there are no images matching your search query. Please try again.'
+    );
+  }
 };
 
-const onLoadMoreBtnClick = e => {
-  if (pixabayApiService.checkHits()) {
-    pixabayApiService.resetHits();
-    showElement(refs.btnContainer);
-    showElement(refs.spanResultEnd);
-    return;
-  }
+const onLoadMoreBtnClick = async e => {
+  loadMoreContainerHideAll();
 
   pixabayApiService.incrementPage();
-  pixabayApiService
-    .fetchPhotos()
-    .then(renderGalleryCards)
-    .then(r => {
-      let gallery = new SimpleLightbox('.gallery a', {
-        sourceAttr: 'href',
-        scrollZoom: false,
-        captions: true,
-        captionDelay: 250,
-        captionSelector: 'img',
-        captionType: 'attr',
-        captionsData: 'alt',
-        captionPosition: 'bottom',
-      });
-      if (pixabayApiService.checkHits()) {
-        showElement(refs.spanResultEnd);
-        hideElement(refs.loadMoreBtn);
-        return;
-      }
-    });
+
+  try {
+    const fetchedData = await pixabayApiService.fetchPhotos();
+    renderGalleryCards(fetchedData);
+    createLightboxGallery();
+  } catch {
+    Notify.failure('Oops...Try reload page');
+  }
+
+  if (pixabayApiService.checkHits()) {
+    loadMoreContainerHideBtn();
+    return;
+  }
+  loadMoreContainerHideSpan();
 };
 
 refs.searchForm.addEventListener('submit', onSearchForm);
