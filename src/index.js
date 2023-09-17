@@ -32,13 +32,12 @@ const onSearchForm = async e => {
   try {
     const fetchedData = await pixabayApiService.fetchPhotos();
 
-    Notify.success(`"Hooray! We found ${pixabayApiService.totalHits} images."`);
-
     renderGalleryCards(fetchedData);
 
     createLightboxGallery();
 
     if (pixabayApiService.checkHits()) {
+      Notify.success(`Hooray! We found ${pixabayApiService.totalHits} images.`);
       loadMoreContainerHideBtn();
       return;
     }
