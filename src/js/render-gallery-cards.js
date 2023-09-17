@@ -1,6 +1,7 @@
+import { clearContainer } from './clear-container';
 import { getRefs } from './refs';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-
+import { showLoadMoreBtn } from './btn-load-more-states';
 export const renderGalleryCards = data => {
   const refs = getRefs();
   if (!data.length) {
@@ -8,32 +9,36 @@ export const renderGalleryCards = data => {
       'Sorry, there are no images matching your search query. Please try again.'
     );
     refs.searchForm.reset();
-    refs.gallery.innerHTML = '';
+
+    clearContainer(refs.gallery);
+
     return;
   }
 
   const markup = data
     .map(
       item =>
-        `<div class="photo-card">
-        <img src="${item.webformatURL}" alt="${item.tags}" loading="lazy" />
+        `<li class="gallery__item photo-card">
+        <a class="gallery__link" href="${item.largeImageURL}">
+        <img class = "gallery__image" src="${item.webformatURL}" alt="${item.tags}" loading="lazy" />
         <div class="info">
           <p class="info-item">
-            <b>Likes<br>${item.likes}</b>
+            <b>Likes</b><br>${item.likes}
           </p>
           <p class="info-item">
-            <b>Views<br>${item.views}</b>
+            <b>Views</b><br>${item.views}
           </p>
           <p class="info-item">
-            <b>Comments<br>${item.comments}</b>
+            <b>Comments</b><br>${item.comments}
           </p>
           <p class="info-item">
-            <b>Downloads<br>${item.downloads}</b>
+            <b>Downloads</b><br>${item.downloads}
           </p>
         </div>
-      </div>`
+        </a>
+      </li>`
     )
     .join('');
 
-  refs.gallery.innerHTML = markup;
+  refs.gallery.insertAdjacentHTML('beforeend', markup);
 };

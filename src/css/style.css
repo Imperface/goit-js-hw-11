@@ -1,3 +1,138 @@
-.load-more.hidden {
+.load-more-hidden {
   display: none;
 }
+.load-more {
+  display: block;
+}
+.hidden {
+  display: none;
+}
+
+.load-more.load-more-hidden {
+  display: none;
+}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #fafafa;
+  color: #212121;
+  line-height: 1.5;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  object-fit: contain;
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
+a {
+  color: inherit;
+}
+p {
+  margin: 0;
+}
+.container {
+  margin: 0 auto;
+  padding: 0 10px;
+}
+.search-form {
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  column-gap: 30px;
+}
+.form {
+  padding: 20px 0;
+  background-color: rgb(93, 25, 177);
+}
+.form input {
+  padding: 10px;
+  min-width: 250px;
+  border-radius: 20px;
+}
+.form button {
+  padding: 10px;
+  min-width: 150px;
+  border-radius: 20px;
+}
+.btn-container {
+  display: flex;
+  justify-content: center;
+  background-color: rgb(93, 25, 177);
+  padding: 20px 0;
+}
+.btn-container.hidden {
+  display: none;
+}
+#load-more {
+  padding: 10px;
+  min-width: 250px;
+  border-radius: 20px;
+}
+.result-end {
+  font-size: 30px;
+  color: rgb(244, 53, 53);
+}
+.result-end.show {
+  display: block;
+}
+/*? ============ Gallery styles ============ */
+:root {
+  --timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  --animation-duration: 250ms;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 20px;
+  row-gap: 20px;
+  justify-content: center;
+}
+
+.gallery__item {
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+  transition: transform var(--animation-duration) var(--timing-function);
+}
+.sl-image {
+  border-radius: 5px;
+  overflow: hidden;
+}
+.gallery__item:hover {
+  transform: scale(1.03);
+}
+
+.gallery__image {
+  height: 300px;
+  width: 400px;
+  object-fit: cover;
+}
+
+.gallery__link {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+}
+
+.gallery__link:hover {
+  cursor: zoom-in;
+}
+.info {
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 20px;
+}
+/*? ============ /Gallery styles ============ */
