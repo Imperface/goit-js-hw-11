@@ -33,11 +33,10 @@ const onSearchForm = async e => {
     const fetchedData = await pixabayApiService.fetchPhotos();
 
     renderGalleryCards(fetchedData);
-
+    Notify.success(`Hooray! We found ${pixabayApiService.totalHits} images.`);
     createLightboxGallery();
 
     if (pixabayApiService.checkHits()) {
-      Notify.success(`Hooray! We found ${pixabayApiService.totalHits} images.`);
       loadMoreContainerHideBtn();
       return;
     }
@@ -58,7 +57,7 @@ const onLoadMoreBtnClick = async e => {
   try {
     const fetchedData = await pixabayApiService.fetchPhotos();
     renderGalleryCards(fetchedData);
-    createLightboxGallery();
+    createLightboxGallery(true);
   } catch {
     Notify.failure('Oops...Try reload page');
   }

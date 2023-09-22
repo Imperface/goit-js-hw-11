@@ -39,8 +39,6 @@ export default class PixabayApiService {
     this.page = 1;
   }
   checkHits() {
-    console.log(this.currentHits);
-    console.log(this.totalHits);
     if (this.currentHits >= this.totalHits) {
       return true;
     }

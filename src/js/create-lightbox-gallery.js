@@ -1,6 +1,6 @@
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-export const createLightboxGallery = () => {
+export const createLightboxGallery = (refresh = false) => {
   let gallery = new SimpleLightbox('.gallery a', {
     sourceAttr: 'href',
     scrollZoom: false,
@@ -11,4 +11,7 @@ export const createLightboxGallery = () => {
     captionsData: 'alt',
     captionPosition: 'bottom',
   });
+  if (refresh) {
+    gallery.refresh();
+  }
 };
